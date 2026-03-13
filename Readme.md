@@ -112,8 +112,32 @@ login with  the credentials you set as you createdsuperuser, if successfull you 
 
 ### Perform **CRUD** operations via the view...model..template
 
-
+ 
 ### Create the Model Form 
+Navigate to respective app directory and add a `forms.py`:
+![alt text](image-12.png)
+
+Structure of a modelForm:
+![alt text](image-13.png)
+
+ModelForms: 
+
+```
+from django.forms import ModelForm
+from .models import Ocean, Lake
+
+class OceanForm(ModelForm):
+    class Meta:
+        model = Ocean
+        fields ='__all__'
+        
+class LakeForm(ModelForm):
+    class Meta:
+        model = Lake
+        fields ='__all__'
+
+```
+
 #### Create `form.html` and pass in he `{% csrf_token %}`
 #### Create the **Create** url and view function
 #### Create the **Read One** url and view function
