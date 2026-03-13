@@ -187,7 +187,7 @@ def createOcean(request):
 def readOceans(request):
     oceans = Ocean.objects.all()
     context = {"oceans": oceans}
-    return render(request, 'waterbodyApp/oceans.py', context)
+    return render(request, 'waterbodyApp/oceans.html', context)
 
 def readOcean(request,pk):
     ocean = Ocean.objects.get(id=pk)
