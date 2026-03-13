@@ -77,11 +77,42 @@ class Ocean(models.Model):
 ### **Create the tables in the DB(SQLite3)**
 `makemigrations`: create the schema of the DB and migrate creates the tables in theDB. Hence run this:
 - `python manage.py makemigrations`
+![alt text](image-2.png)
+
 - `python manage.py migrate`
+![alt text](image-3.png)
 
 ### Perform **CRUD** operations via the admin panel
+Run your application now: `python manage.py runserver`. You will no longer see unapploed migrations error: 
+![alt text](image-4.png)
+
+Navigate to `http://127.0.0.1:8000/admin` on your brower. Now you should see something similar to this:
+![alt text](image-5.png)
+
+login with  the credentials you set as you createdsuperuser, if successfull you should see this: 
+![alt text](image-6.png)
+
+#### CRUD OPERATIONS ON Admin panel: 
+- Select any model you created eg Oceans:
+![alt text](image-7.png)
+
+- click on the top right section on `add ocean+`
+- You should see a table as such: 
+![alt text](image-8.png)
+
+- Fill in information: 
+![alt text](image-10.png)
+
+- if successfull: 
+![alt text](image-9.png)
+
+- if you click on the ocean name it will take you to the edit form and you will still be able to edit it, it will look like this:
+![alt text](image-11.png)
+
 
 ### Perform **CRUD** operations via the view...model..template
+
+
 ### Create the Model Form 
 #### Create `form.html` and pass in he `{% csrf_token %}`
 #### Create the **Create** url and view function
