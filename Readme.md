@@ -139,9 +139,118 @@ class LakeForm(ModelForm):
 ```
 
 #### Create `form.html` and pass in he `{% csrf_token %}`
-#### Create the **Create** url and view function
-#### Create the **Read One** url and view function
-#### Create the **Read All** url and view function
-#### Create the **Update** url and view function
-#### Create the **Delete** url and view function
+kindy also create the templates that we will dipslay the other oceans and lakes in: 
+![alt text](image-14.png)
+
+
+#### Create the **CRUD** url and view function
+**``urls.py``:** 
+
+```
+from django.urls import path
+from .views import home 
+
+urlpatterns = [
+    path('', views.home, name='home'), 
+    
+    path('create-ocean', views.createOcean, name="create-ocean"),
+    path('read-oceans', views.readOcean, name="read-oceans"),
+    path('read-ocean/<str:pk>', views.createOcean, name="read-ocean"),
+    path('update-ocean/<str:pk>', views.updateOcean, name="update-ocean"),
+    path('delete-lake/<str:pk>', views.deleteOcean, name="delete-ocean"),
+
+    path('create-lake', views.createOcean, name="create-lake"),
+    path('read-lakes', views.readOcean, name="read-lakes"),
+    path('read-lake/<str:pk>', views.createOcean, name="read-lake"),
+    path('update-lake/<str:pk>', views.updateOcean, name="update-lake"),
+    path('delete-lake/<str:pk>', views.deleteOcean, name="delete-lake")
+]
+``` 
+
+**`views.py`:** 
+```
+from django.shortcuts import render, redirect
+from .forms import OceanForm, LakeForm
+
+# Create your views here.
+def createOcean(request):
+    form = OceanForm() # get an instance of the Ocean form
+    if request == 'POST':
+        form = OceanForm(request.POST) # get what the user has input
+        if form.is_valid():  #validate the form to ascetain the input have been dne well
+            form.save()
+        return redirect('read-oceans') 
+    
+    context = {'form':form}
+    return render(request, 'waterbodyApp/form.html', context)
+
+def readOceans(request):
+    oceans = Ocean.objects.all()
+    context = {"oceans": oceans}
+    return render(request, 'waterbodyApp/oceans.py', context)
+
+def readOcean(request,pk):
+    ocean = Ocean.objects.get(id=pk)
+    context = {"ocean": ocean}
+    return render(request, 'waterbodyApp/ocean.html', context)
+
+def updateOcean(request,pk):
+    ocean = Ocean.objects.get(id=pk)
+    form = OceanForm(instance = ocean)
+    if request == 'POST':
+        form = LakeForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('read-oceans')
+    context = { "form":form}
+    return render(request,'waterbodyApp/form.html', context)
+
+
+def deleteOcean(request, pk):
+    lake = Lake.objects.get(id=pk)
+    lake.delete()  
+    return redirect('read-oceans')
+
+def readLakes(request):
+    lakes = Lake.objects.all()
+    context = {"lakes": lakes}
+    return render(request, 'waterbodyApp/lakes.html', context)
+     
+
+def readLake(request,pk):
+    lake = Lake.objects.get(id=pk)
+    context = {"lake": lake}
+    return render(request, 'waterbodyApp/lake.html', context)
+
+def updateLake(request, pk):
+    lake = Lake.objects.get(id=pk)
+    form = LakeForm(instance = lake)
+    if request == 'POST':
+        form = LakeForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('read-lakes')
+
+    context = {"form": form}
+    return render(request, 'waterbodyApp/form.html', context)
+
+```
+
+
+**`forms.py`:**
+kindly note here we add the *csrf_token* in order to prevent a X-site forgery attack(cybersecurity)
+
+```
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <form action="" method="post">
+        {% csrf_token %}
+        {{form}} 
+        <input type="submit" value="submit">
+    </form>
+</div>
+{% endblock %}
+```
 
