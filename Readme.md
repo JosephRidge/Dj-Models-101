@@ -35,13 +35,52 @@ Kinldy note that we willbe dealing with s relational DB, in this case SQLite3. W
 In Django, models give us access to the respective data types, let us create two models. 
 
 ```
+class Lake(models.Model):
+    name = models.CharField(max_length=150)
+    description = models.TextField()
+    size = models.FloatField()
+    latitude=models.FloatField()
+    longitude =models.FloatField()
+    isSalty = models.BooleanField(default=False)
+    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
+
+    
+class Ocean(models.Model):
+    name = models.CharField(max_length=150)
+    description = models.TextField()
+    size = models.FloatField()
+    latitude=models.FloatField()
+    longitude =models.FloatField()
+    isSalty = models.BooleanField(default=False)
+    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
 
 ```
 
+### **Register** models to the admin panel in the app-level`admin.py`
+```
+    from django.contrib import admin
+    from .models import Lake, Ocean
 
-### **Register** models to the admin panel
+    # Register your models here.
+    admin.site.register(Lake)
+    admin.site.register(Ocean)
+```
+
 ### **Create the tables in the DB(SQLite3)**
+`makemigrations`: create the schema of the DB and migrate creates the tables in theDB. Hence run this:
+- `python manage.py makemigrations`
+- `python manage.py migrate`
+
 ### Perform **CRUD** operations via the admin panel
+
 ### Perform **CRUD** operations via the view...model..template
 ### Create the Model Form 
 #### Create `form.html` and pass in he `{% csrf_token %}`
