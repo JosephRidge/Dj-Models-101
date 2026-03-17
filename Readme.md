@@ -155,7 +155,7 @@ urlpatterns = [
     
     path('create-ocean', views.createOcean, name="create-ocean"),
     path('read-oceans', views.readOcean, name="read-oceans"),
-    path('read-ocean/<str:pk>', views.createOcean, name="read-ocean"),
+    path('read-ocean/<str:pk>', views.readOcean, name="read-ocean"),
     path('update-ocean/<str:pk>', views.updateOcean, name="update-ocean"),
     path('delete-lake/<str:pk>', views.deleteOcean, name="delete-ocean"),
 
@@ -237,7 +237,7 @@ def updateLake(request, pk):
 ```
 
 
-**`forms.py`:**
+**`forms.html`:**
 kindly note here we add the *csrf_token* in order to prevent a X-site forgery attack(cybersecurity)
 
 ```
