@@ -1,7 +1,12 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container">
+<div class="containeo"> 
+
+{% for ocean in oceans %}
+    <h1> <a href="{% url 'read-ocean' ocean.id %}">{{ocean.name}}</a></h1>
+    <p>{{ocean.description}}</p>
+{% endfor %}
 
 </div>
 {% endblock %}

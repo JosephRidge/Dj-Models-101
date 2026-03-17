@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="containeo"> 
+ 
+    <h1>{{ocean.name}}</h1>
+    <p>{{ocean.description}}</p>
+
+    <a href="{% url 'update-ocean' ocean.id %}">update ocean</a>
+ 
+
+</div>
+{% endblock %}

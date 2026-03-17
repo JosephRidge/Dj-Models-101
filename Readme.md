@@ -154,7 +154,7 @@ urlpatterns = [
     path('', views.home, name='home'), 
     
     path('create-ocean', views.createOcean, name="create-ocean"),
-    path('read-oceans', views.readOcean, name="read-oceans"),
+    path('read-oceans', views.readOceans, name="read-oceans"),
     path('read-ocean/<str:pk>', views.readOcean, name="read-ocean"),
     path('update-ocean/<str:pk>', views.updateOcean, name="update-ocean"),
     path('delete-lake/<str:pk>', views.deleteOcean, name="delete-ocean"),
@@ -171,18 +171,26 @@ urlpatterns = [
 ```
 from django.shortcuts import render, redirect
 from .forms import OceanForm, LakeForm
+from .models import Ocean, Lake
+
+def home(request):
+    oceans = Ocean.objects.all()
+    context = {"oceans":oceans}
+    return render(request,'waterbodyApp/oceans.html',context)
 
 # Create your views here.
 def createOcean(request):
     form = OceanForm() # get an instance of the Ocean form
-    if request == 'POST':
+    if request.method == 'POST':
         form = OceanForm(request.POST) # get what the user has input
         if form.is_valid():  #validate the form to ascetain the input have been dne well
             form.save()
-        return redirect('read-oceans') 
-    
+            return redirect('read-oceans') 
+        else:
+            print("kejljwejlwjlkwje=====")
     context = {'form':form}
     return render(request, 'waterbodyApp/form.html', context)
+
 
 def readOceans(request):
     oceans = Ocean.objects.all()
@@ -197,26 +205,36 @@ def readOcean(request,pk):
 def updateOcean(request,pk):
     ocean = Ocean.objects.get(id=pk)
     form = OceanForm(instance = ocean)
-    if request == 'POST':
-        form = LakeForm(request.POST)
+    if request.method == 'POST':
+        form = OceanForm(request.POST, instance= ocean)
         if form.is_valid():
-            form.save()
+            ocean.save()
             return redirect('read-oceans')
     context = { "form":form}
     return render(request,'waterbodyApp/form.html', context)
 
-
 def deleteOcean(request, pk):
-    lake = Lake.objects.get(id=pk)
-    lake.delete()  
+    ocean = Ocean.objects.get(id=pk)
+    ocean.delete()  
     return redirect('read-oceans')
+
+
+def createLake(request):
+    form = LakeForm() # get an instance of the Ocean form
+    if request.method == 'POST':
+        form = LakeForm(request.POST) # get what the user has input
+        if form.is_valid():  #validate the form to ascetain the input have been dne well
+            form.save()
+        return redirect('read-lakes') 
+    
+    context = {'form':form}
+    return render(request, 'waterbodyApp/form.html', context)
 
 def readLakes(request):
     lakes = Lake.objects.all()
     context = {"lakes": lakes}
     return render(request, 'waterbodyApp/lakes.html', context)
      
-
 def readLake(request,pk):
     lake = Lake.objects.get(id=pk)
     context = {"lake": lake}
@@ -225,14 +243,20 @@ def readLake(request,pk):
 def updateLake(request, pk):
     lake = Lake.objects.get(id=pk)
     form = LakeForm(instance = lake)
-    if request == 'POST':
-        form = LakeForm(request.POST)
+    if request.method  == 'POST':
+        form = LakeForm(request.POST, instance= lake)
         if form.is_valid():
             form.save()
             return redirect('read-lakes')
 
     context = {"form": form}
     return render(request, 'waterbodyApp/form.html', context)
+
+def deleteLake(request, pk):
+    lake = Lake.objects.get(id=pk)
+    lake.delete()  
+    return redirect('read-lakes')
+
 
 ```
 

@@ -4,7 +4,7 @@ from .models import Ocean, Lake
 class OceanForm(ModelForm):
     class Meta:
         model = Ocean
-        fields ='__all__'
+        fields ='__all__' 
         
 class LakeForm(ModelForm):
     class Meta:
